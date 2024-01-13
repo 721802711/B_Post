@@ -45,5 +45,31 @@ Shader "B_Post/Blur"
 
             ENDHLSL
         }
+        Pass
+        {
+            Name "DownSample"
+            HLSLPROGRAM
+            #pragma vertex DualKawaseDownvert
+            #pragma fragment DualKawaseDownfrag
+
+            #include "Blur.hlsl"           //函数库
+
+
+            ENDHLSL
+        }
+
+        Pass
+        {
+            Name "UpSample"
+            HLSLPROGRAM
+            #pragma vertex DualKawaseUpvert
+            #pragma fragment DualKawaseUpfrag
+
+            #include "Blur.hlsl"           //函数库
+
+
+            ENDHLSL
+        }
+
     }
 }

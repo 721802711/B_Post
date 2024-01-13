@@ -57,12 +57,17 @@ namespace UnityEditor.Rendering.Universal
             else if (mode == BlurEnumMode.KawaseBlur)
             {
                 EditorGUILayout.LabelField("Kawase模糊", EditorStyles.boldLabel);
+                PropertyField(m_BlurTimes);
+                PropertyField(m_BlurRange);
+                PropertyField(m_RTDownSampling);
 
             }
             else if (mode == BlurEnumMode.DualKawaseBlur)
             {
                 EditorGUILayout.LabelField("双重模糊", EditorStyles.boldLabel);
-
+                PropertyField(m_BlurTimes);
+                PropertyField(m_BlurRange);
+                PropertyField(m_RTDownSampling);
             }
         }
     }

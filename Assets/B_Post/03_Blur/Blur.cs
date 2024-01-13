@@ -97,10 +97,10 @@ namespace B_Post.Effect
                     break;
 
                 case BlurEnumMode.KawaseBlur:
-
+                    ApplyKawaseBlurEffect(cmd, tempRTId1, tempRTId2, 2);
                     break;
                 case BlurEnumMode.DualKawaseBlur:
-
+                    ApplyDualKawaseBlurEffect(cmd,source, tempRTId1, 3, 4);
                     break;
             }
 
@@ -124,14 +124,73 @@ namespace B_Post.Effect
 
         }
 
-        private void ApplyBlurEffect(CommandBuffer cmd, int tempRTId1, int tempRTId2, int passIndex) {
+        private void ApplyBlurEffect(CommandBuffer cmd, int sourceRT, int destinationRT, int passIndex) {
             for (int i = 0; i < BlurTimes.value; i++) {
                 // 应用模糊效果，使用指定的Shader Pass
-                cmd.Blit(tempRTId1, tempRTId2, mMaterial, passIndex);
+                cmd.Blit(sourceRT, destinationRT, mMaterial, passIndex);
                 // 交换渲染目标，以便下一次迭代使用
-                int temp = tempRTId1;
-                tempRTId1 = tempRTId2;
-                tempRTId2 = temp;
+                int temp = sourceRT;
+                sourceRT = destinationRT;
+                destinationRT = temp;
+            }
+        }
+
+        private void ApplyKawaseBlurEffect(CommandBuffer cmd, int sourceRT, int destinationRT, int passIndex) {
+            mMaterial.SetFloat("_BlurRange", BlurRange.value);
+            cmd.Blit(sourceRT, destinationRT, mMaterial, passIndex); // 假设Kawase模糊的Pass索引是2
+
+            for (int i = 1; i < BlurTimes.value; i++) 
+            {
+                mMaterial.SetFloat("_BlurRange", i * BlurRange.value + 1);
+                cmd.Blit(destinationRT, sourceRT, mMaterial, passIndex);
+
+                // 交换两个渲染目标
+                int temp = sourceRT;
+                sourceRT = destinationRT;
+                destinationRT = temp;
+            }
+
+        }
+
+        private void ApplyDualKawaseBlurEffect(CommandBuffer cmd, RTHandle source, int destinationRT, int downsamplePassIndex, int upsamplePassIndex) {
+            int blurIterations = BlurTimes.value;
+            int[] downSampleRT = new int[blurIterations];
+            int[] upSampleRT = new int[blurIterations];
+
+
+
+            // 向下采样
+            int width = source.rt.width;
+            int height = source.rt.height;
+            RenderTargetIdentifier lastDownsampledRT = source;
+
+            // 向下采样阶段
+            for (int i = 0; i < blurIterations; i++) {
+                downSampleRT[i] = Shader.PropertyToID("_DownSampleRT" + i);
+                width = Mathf.Max(width / 2, 1);
+                height = Mathf.Max(height / 2, 1);
+                cmd.GetTemporaryRT(downSampleRT[i], width, height, 0, FilterMode.Bilinear, RenderTextureFormat.Default);
+                cmd.Blit(lastDownsampledRT, downSampleRT[i], mMaterial, downsamplePassIndex);
+                lastDownsampledRT = downSampleRT[i]; // 直接使用 RenderTargetIdentifier
+            }
+
+            // 向上采样阶段
+            for (int i = blurIterations - 2; i >= 0; i--) {
+                upSampleRT[i] = Shader.PropertyToID("_UpSampleRT" + i);
+                cmd.GetTemporaryRT(upSampleRT[i], width, height, 0, FilterMode.Bilinear, RenderTextureFormat.Default);
+                cmd.Blit(lastDownsampledRT, upSampleRT[i], mMaterial, upsamplePassIndex);
+                lastDownsampledRT = upSampleRT[i]; // 直接使用 RenderTargetIdentifier
+                width *= 2;
+                height *= 2;
+            }
+
+            // 最后一步模糊
+            cmd.Blit(lastDownsampledRT, destinationRT, mMaterial, upsamplePassIndex);
+
+            // 释放所有临时RT
+            for (int i = 0; i < blurIterations; i++) {
+                cmd.ReleaseTemporaryRT(downSampleRT[i]);
+                cmd.ReleaseTemporaryRT(upSampleRT[i]);
             }
         }
 
