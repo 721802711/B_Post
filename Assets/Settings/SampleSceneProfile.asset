@@ -1,0 +1,106 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &-6741416650412028075
+MonoBehaviour:
+  m_ObjectHideFlags: 3
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 92f2e7bcf1e32024094b45e981cd477f, type: 3}
+  m_Name: ColorBSC
+  m_EditorClassIdentifier: 
+  active: 1
+  brightness:
+    m_OverrideState: 0
+    m_Value: 1
+  saturation:
+    m_OverrideState: 0
+    m_Value: 1
+  contrast:
+    m_OverrideState: 0
+    m_Value: 1
+--- !u!114 &-1350090129787517292
+MonoBehaviour:
+  m_ObjectHideFlags: 3
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d9e553c8254e4044b907e132538a5204, type: 3}
+  m_Name: ColorTint
+  m_EditorClassIdentifier: 
+  active: 1
+  ColorChange:
+    m_OverrideState: 1
+    m_Value: {r: 1, g: 0.033018887, b: 0.033018887, a: 1}
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d7fd9488000d3734a9e00ee676215985, type: 3}
+  m_Name: SampleSceneProfile
+  m_EditorClassIdentifier: 
+  components:
+  - {fileID: 2501925727840154428}
+--- !u!114 &2501925727840154428
+MonoBehaviour:
+  m_ObjectHideFlags: 3
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 38130f17f2c20dc41abf0fdd76142fbe, type: 3}
+  m_Name: Blur
+  m_EditorClassIdentifier: 
+  active: 1
+  mode:
+    m_OverrideState: 1
+    m_Value: 0
+  BlurTimes:
+    m_OverrideState: 1
+    m_Value: 1
+  BlurRange:
+    m_OverrideState: 1
+    m_Value: 1.88
+  RTDownSampling:
+    m_OverrideState: 1
+    m_Value: 1
+--- !u!114 &6739722237678076613
+MonoBehaviour:
+  m_ObjectHideFlags: 3
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b66d987c12a38cc42b25d9797697a36f, type: 3}
+  m_Name: ColorBSC
+  m_EditorClassIdentifier: 
+  active: 1
+  <displayName>k__BackingField: 
+  mMaterial: {fileID: 0}
+  enableEffect:
+    m_OverrideState: 1
+    m_Value: 1
+  brightness:
+    m_OverrideState: 1
+    m_Value: 1.35
+  saturation:
+    m_OverrideState: 1
+    m_Value: 1.68
+  contrast:
+    m_OverrideState: 1
+    m_Value: 0.96
