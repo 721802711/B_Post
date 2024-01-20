@@ -1,3 +1,4 @@
+
 #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Core.hlsl"
 
 
@@ -42,6 +43,30 @@ struct v2f
 };
 
 
+
+// 获取高斯模糊，模糊范围
+float4 GetBlurRange(float2 uv, float blurrange)
+{
+
+    float4 col = float4(0, 0, 0, 0);
+
+    col += SAMPLE_TEXTURE2D(_MainTex, sampler_MainTex, uv+ float2(0.0, 0.0)) * 0.147716f;
+    col += SAMPLE_TEXTURE2D(_MainTex, sampler_MainTex, uv + float2(blurrange, 0.0)) * 0.118318f;
+    col += SAMPLE_TEXTURE2D(_MainTex, sampler_MainTex, uv + float2(0.0, -blurrange)) * 0.118318f;
+    col += SAMPLE_TEXTURE2D(_MainTex, sampler_MainTex, uv + float2(0.0, blurrange)) * 0.118318f;
+    col += SAMPLE_TEXTURE2D(_MainTex, sampler_MainTex, uv + float2(-blurrange, 0.0)) * 0.118318f;
+
+    col += SAMPLE_TEXTURE2D(_MainTex, sampler_MainTex, uv + float2(blurrange, blurrange)) * 0.0947416f;
+    col += SAMPLE_TEXTURE2D(_MainTex, sampler_MainTex, uv + float2(-blurrange, -blurrange)) * 0.0947416f;
+    col += SAMPLE_TEXTURE2D(_MainTex, sampler_MainTex, uv + float2(blurrange, -blurrange)) * 0.0947416f;
+    col += SAMPLE_TEXTURE2D(_MainTex, sampler_MainTex, uv + float2(-blurrange, blurrange)) * 0.0947416f;
+
+    return col;
+
+}
+
+
+
 v2f vert(appdata v)
 {
     v2f o;
@@ -56,17 +81,7 @@ half4 Gaussianfrag(v2f i) : SV_Target
 
     float4 col = float4(0, 0, 0, 0);
     blurrange = _BlurRange / 300;
-    
-    col += SAMPLE_TEXTURE2D(_MainTex, sampler_MainTex, i.uv + float2(0.0, 0.0)) * 0.147716f;
-    col += SAMPLE_TEXTURE2D(_MainTex, sampler_MainTex, i.uv + float2(blurrange, 0.0)) * 0.118318f;
-    col += SAMPLE_TEXTURE2D(_MainTex, sampler_MainTex, i.uv + float2(0.0, -blurrange)) * 0.118318f;
-    col += SAMPLE_TEXTURE2D(_MainTex, sampler_MainTex, i.uv + float2(0.0, blurrange)) * 0.118318f;
-    col += SAMPLE_TEXTURE2D(_MainTex, sampler_MainTex, i.uv + float2(-blurrange, 0.0)) * 0.118318f;
-
-    col += SAMPLE_TEXTURE2D(_MainTex, sampler_MainTex, i.uv + float2(blurrange, blurrange)) * 0.0947416f;
-    col += SAMPLE_TEXTURE2D(_MainTex, sampler_MainTex, i.uv + float2(-blurrange, -blurrange)) * 0.0947416f;
-    col += SAMPLE_TEXTURE2D(_MainTex, sampler_MainTex, i.uv + float2(blurrange, -blurrange)) * 0.0947416f;
-    col += SAMPLE_TEXTURE2D(_MainTex, sampler_MainTex, i.uv + float2(-blurrange, blurrange)) * 0.0947416f;
+    col = GetBlurRange(i.uv,blurrange);
 
     return col;
 }

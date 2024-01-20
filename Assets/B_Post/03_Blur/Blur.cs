@@ -35,8 +35,6 @@ namespace B_Post.Effect
 
 
 
-        // 创建材质制定Shader路径
-        private Material mMaterial;
         private const string mShaderName = "B_Post/Blur";   
 
         // 设置渲染流程中的注入点

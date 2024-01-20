@@ -19,6 +19,8 @@ namespace B_Post
         private B_PostProcessPass m_AfterPostProcessPass;
 
 
+        [SerializeField] public bool NormalTexture = false; // 开启此选项渲染法线图
+        private DepthNormalsPass mDepthNormalsPass;
 
         public override void Create() 
         {
@@ -75,6 +77,9 @@ namespace B_Post
             // 对应时机
             m_AfterPostProcessPass.renderPassEvent = RenderPassEvent.AfterRenderingPostProcessing;
 
+
+            mDepthNormalsPass = new DepthNormalsPass();   // 初始化
+
         }
 
         public override void AddRenderPasses(ScriptableRenderer renderer, ref RenderingData renderingData)
@@ -103,6 +108,13 @@ namespace B_Post
                     m_AfterPostProcessPass.ConfigureInput(ScriptableRenderPassInput.Color);
                     renderer.EnqueuePass(m_AfterPostProcessPass);
                 }
+
+                // 使用开关判断是否开启 DepthNormalPass
+                if (NormalTexture) {
+                    renderer.EnqueuePass(mDepthNormalsPass);
+                }
+
+
             }
 
         }
@@ -126,7 +138,18 @@ namespace B_Post
             }
         }
 
+        // 渲染法线Pass
+        private class DepthNormalsPass : ScriptableRenderPass{
+            // 相机初始化
+            public override void OnCameraSetup(CommandBuffer cmd, ref RenderingData renderingData) {
+                // 设置输入为Normal，让Unity RP添加DepthNormalPrepass Pass
+                ConfigureInput(ScriptableRenderPassInput.Normal);
+            }
 
+            public override void Execute(ScriptableRenderContext context, ref RenderingData renderingData) {
+                // 什么都不做，我们只需要在相机初始化时配置DepthNormals即可
+            }
+        }
     }
 
 }

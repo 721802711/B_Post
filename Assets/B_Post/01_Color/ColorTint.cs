@@ -12,8 +12,7 @@ namespace B_Post.Effect
     public class ColorTint : B_PostProcessing
     {
 
-        // 创建材质制定Shader路径
-        private Material mMaterial;
+
         private const string mShaderName = "B_Post/Color";   
 
         // 设置颜色参数

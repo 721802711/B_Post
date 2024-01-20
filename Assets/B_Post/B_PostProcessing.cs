@@ -19,7 +19,8 @@ namespace B_Post
     // 抽象基类 接口
     public abstract class B_PostProcessing : VolumeComponent, IPostProcessComponent, IDisposable
     {
-
+        // Shader的材质，后处理效果都有一个材质
+        protected Material mMaterial = null;
         // 注入点
         public virtual BasicInjectionPoint InjectionPoint => BasicInjectionPoint.AfterPostProcess;
 
@@ -45,6 +46,18 @@ namespace B_Post
         
         public virtual bool IsTileCompatible() => false;
         #endregion
+
+
+
+        // 在OnCameraSetUp函数中使用，渲染时用CoreUtils.SetKeyword
+        protected void SetKeyword(string keyword, bool enabled = true) 
+        {
+            if (enabled) mMaterial.EnableKeyword(keyword);
+            else mMaterial.DisableKeyword(keyword);
+        }
+
+
+
 
         #region IDisposable  
         // IDisposable接口用于释放资源，防止资源泄漏。

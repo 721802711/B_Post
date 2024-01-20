@@ -5,7 +5,7 @@ using UnityEngine.Rendering.Universal;
 
 namespace UnityEditor.Rendering.Universal
 {
-    [VolumeComponentEditor(typeof(VolumetricLight))]
+    [CustomEditor(typeof(VolumetricLight))]
     sealed class VolumLightEditor : VolumeComponentEditor
     {
 

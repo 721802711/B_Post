@@ -5,7 +5,7 @@ using UnityEngine.Rendering.Universal;
 
 namespace UnityEditor.Rendering.Universal
 {
-    [VolumeComponentEditor(typeof(Blur))]
+    [CustomEditor(typeof(Blur))]
     sealed class BlurEditor : VolumeComponentEditor
     {
 

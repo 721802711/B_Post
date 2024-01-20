@@ -13,8 +13,6 @@ namespace B_Post.Effect
     public class ColorAdiustment : B_PostProcessing
     {
 
-
-        private Material mMaterial;
         private const string mShaderName = "B_Post/ColorAdjustment";
 
 

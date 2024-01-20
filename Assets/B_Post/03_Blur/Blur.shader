@@ -7,7 +7,7 @@ Shader "B_Post/Blur"
     SubShader
     {
         Tags { "RenderPipeline"="UniversalPipeline" }
-         Cull Off ZWrite Off ZTest Always
+        Cull Off ZWrite Off ZTest Always
 
 
         Pass
