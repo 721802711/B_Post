@@ -21,6 +21,12 @@ namespace B_Post
     {
         // Shader的材质，后处理效果都有一个材质
         protected Material mMaterial = null;
+
+
+        // 添加 RenderNormals 属性
+        public bool RenderNormals { get; set; } = false;
+
+
         // 注入点
         public virtual BasicInjectionPoint InjectionPoint => BasicInjectionPoint.AfterPostProcess;
 
@@ -68,6 +74,16 @@ namespace B_Post
         
         public virtual void Dispose(bool disposing) 
         {  
+
+            // 在此处释放材质资源
+            if (disposing)
+            {
+                if (mMaterial != null)
+                {
+                    UnityEngine.Object.DestroyImmediate(mMaterial);
+                    mMaterial = null;
+                }
+            }
         }  
         #endregion
 

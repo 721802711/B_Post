@@ -51,8 +51,8 @@ MonoBehaviour:
   m_Name: SampleSceneProfile
   m_EditorClassIdentifier: 
   components:
-  - {fileID: 2501925727840154428}
---- !u!114 &2501925727840154428
+  - {fileID: 7045007593066998750}
+--- !u!114 &4334884402316271701
 MonoBehaviour:
   m_ObjectHideFlags: 3
   m_CorrespondingSourceObject: {fileID: 0}
@@ -61,22 +61,15 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 38130f17f2c20dc41abf0fdd76142fbe, type: 3}
-  m_Name: Blur
+  m_Script: {fileID: 11500000, guid: cb914de11f6ee914a9ebb9ea38ac9e63, type: 3}
+  m_Name: ToneMapping
   m_EditorClassIdentifier: 
   active: 1
+  <displayName>k__BackingField: 
   mode:
     m_OverrideState: 1
     m_Value: 0
-  BlurTimes:
-    m_OverrideState: 1
-    m_Value: 1
-  BlurRange:
-    m_OverrideState: 1
-    m_Value: 1.88
-  RTDownSampling:
-    m_OverrideState: 1
-    m_Value: 1
+  mMaterial: {fileID: 0}
 --- !u!114 &6739722237678076613
 MonoBehaviour:
   m_ObjectHideFlags: 3
@@ -104,3 +97,31 @@ MonoBehaviour:
   contrast:
     m_OverrideState: 1
     m_Value: 0.96
+--- !u!114 &7045007593066998750
+MonoBehaviour:
+  m_ObjectHideFlags: 3
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 54ec22e1586bb594ba0e271b0bb57e7b, type: 3}
+  m_Name: Bloom
+  m_EditorClassIdentifier: 
+  active: 1
+  Threshold:
+    m_OverrideState: 1
+    m_Value: 1
+  Knee:
+    m_OverrideState: 1
+    m_Value: 0.01
+  blurSpread:
+    m_OverrideState: 1
+    m_Value: 1.39
+  iterations:
+    m_OverrideState: 1
+    m_Value: 5
+  RTDownScaling:
+    m_OverrideState: 1
+    m_Value: 2

@@ -38,7 +38,8 @@ namespace B_Post.Effect
         public ClampedFloatParameter DepthNormalThreshold = new ClampedFloatParameter(0.5f, 0f, 1f);
         public ClampedFloatParameter DepthNormalThresholdScale = new ClampedFloatParameter(7f, 0f, 10f);
 
-
+        
+        
         private const string mShaderName = "B_Post/Outlint";   
 
         // 定义关键字   

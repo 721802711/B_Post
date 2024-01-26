@@ -74,3 +74,4 @@ MonoBehaviour:
   m_Name: BPostRendererFeature
   m_EditorClassIdentifier: 
   m_Active: 1
+  NormalTexture: 1

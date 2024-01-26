@@ -88,29 +88,28 @@ namespace B_Post
             // 当前摄像机是否开启后处理
             if (renderingData.cameraData.postProcessEnabled)
             {
-                // 并且将pass列表加到renderer中
-                if (m_AfterOpaquePass.SetupPostProcessing()) {
-                    m_AfterOpaquePass.ConfigureInput(ScriptableRenderPassInput.Color);
-                    renderer.EnqueuePass(m_AfterOpaquePass);
+                bool requireNormals = NormalTexture; // 初始标记是否需要渲染法线图
+
+                // 检查每个后处理实例是否需要渲染法线图
+                foreach (var postProcess in mB_PostProcessings)
+                {
+                    if (postProcess.RenderNormals)
+                    {
+                        requireNormals = true;
+                        break; // 找到一个需要渲染法线图的后处理后即退出循环
+                    }
                 }
 
-                if (m_AfterSkyboxPass.SetupPostProcessing()) {
-                    m_AfterSkyboxPass.ConfigureInput(ScriptableRenderPassInput.Color);
-                    renderer.EnqueuePass(m_AfterSkyboxPass);
-                }
+                // 加入各个后处理Pass
+                EnqueuePassIfActive(m_AfterOpaquePass, renderer);
+                EnqueuePassIfActive(m_AfterSkyboxPass, renderer);
+                EnqueuePassIfActive(m_BeforePostProcessPass, renderer);
+                EnqueuePassIfActive(m_AfterPostProcessPass, renderer);
 
-                if (m_BeforePostProcessPass.SetupPostProcessing()) {
-                    m_BeforePostProcessPass.ConfigureInput(ScriptableRenderPassInput.Color);
-                    renderer.EnqueuePass(m_BeforePostProcessPass);
-                }
 
-                if (m_AfterPostProcessPass.SetupPostProcessing()) {
-                    m_AfterPostProcessPass.ConfigureInput(ScriptableRenderPassInput.Color);
-                    renderer.EnqueuePass(m_AfterPostProcessPass);
-                }
-
-                // 使用开关判断是否开启 DepthNormalPass
-                if (NormalTexture) {
+                // 根据需要加入 DepthNormalsPass
+                if (requireNormals)
+                {
                     renderer.EnqueuePass(mDepthNormalsPass);
                 }
 
@@ -119,6 +118,14 @@ namespace B_Post
 
         }
 
+        private void EnqueuePassIfActive(B_PostProcessPass pass, ScriptableRenderer renderer)
+        {
+            if (pass != null && pass.SetupPostProcessing())
+            {
+                pass.ConfigureInput(ScriptableRenderPassInput.Color);
+                renderer.EnqueuePass(pass);
+            }
+        }
         //  释放资源
         protected override void Dispose(bool disposing)
         {
