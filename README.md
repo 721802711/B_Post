@@ -7,16 +7,20 @@
 
 
 ### [基础颜色](https://github.com/721802711/B_Post.github.io/tree/main/Assets/B_Post/01_Color)  
-  ![image]()
+  ![image](https://github.com/721802711/B_Post/blob/main/Assets/B_Post/01_Color/Color.png)
 
 ### [色相颜色对比度](https://github.com/721802711/B_Post/tree/main/Assets/B_Post/02_ColorAdiustment)
-  ![image]()
+  ![image](https://github.com/721802711/B_Post/blob/main/Assets/B_Post/02_ColorAdiustment/Adiustment.png)
 
 ### [模糊](https://github.com/721802711/B_Post/tree/main/Assets/B_Post/03_Blur)
 - 高斯模糊
-   ![image]()
+   ![image](https://github.com/721802711/B_Post/blob/main/Assets/B_Post/03_Blur/%E9%AB%98%E6%96%AF%E6%A8%A1%E7%B3%8A.png)
 - 方框模糊
-   ![image]()
+   ![image](https://github.com/721802711/B_Post/blob/main/Assets/B_Post/03_Blur/Box%20%E6%A8%A1%E7%B3%8A.png)
+- Kawase模糊
+   ![image](https://github.com/721802711/B_Post/blob/main/Assets/B_Post/03_Blur/Kawase%E6%A8%A1%E7%B3%8A.png)
+- Dual Kawase模糊
+   ![image](https://github.com/721802711/B_Post/blob/main/Assets/B_Post/03_Blur/Dual%20Kawase%E6%A8%A1%E7%B3%8A.png)
 
 ### [径向模糊](https://github.com/721802711/B_Post/tree/main/Assets/B_Post/04_RadialBlur)
    ![image](https://github.com/721802711/B_Post/blob/main/Assets/B_Post/04_RadialBlur/Radial%E6%A8%A1%E7%B3%8A.png)
