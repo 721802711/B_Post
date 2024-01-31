@@ -51,7 +51,53 @@ MonoBehaviour:
   m_Name: SampleSceneProfile
   m_EditorClassIdentifier: 
   components:
-  - {fileID: 7045007593066998750}
+  - {fileID: 4324132301513650755}
+--- !u!114 &4324132301513650755
+MonoBehaviour:
+  m_ObjectHideFlags: 3
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2da1d524b4e3b9746921d393a7453ac2, type: 3}
+  m_Name: VolumetricLight
+  m_EditorClassIdentifier: 
+  active: 1
+  ColorChange:
+    m_OverrideState: 1
+    m_Value: {r: 1, g: 1, b: 1, a: 1}
+  lightIntensity:
+    m_OverrideState: 1
+    m_Value: 0.05
+  stepSize:
+    m_OverrideState: 1
+    m_Value: 0.1
+  maxDistance:
+    m_OverrideState: 1
+    m_Value: 1000
+  maxStep:
+    m_OverrideState: 1
+    m_Value: 500
+  mode:
+    m_OverrideState: 1
+    m_Value: 0
+  loop:
+    m_OverrideState: 0
+    m_Value: 3
+  BlurInt:
+    m_OverrideState: 0
+    m_Value: 0.3
+  Space_S:
+    m_OverrideState: 0
+    m_Value: 0.3
+  Space_R:
+    m_OverrideState: 0
+    m_Value: 0.3
+  KernelSize:
+    m_OverrideState: 0
+    m_Value: 0.5
 --- !u!114 &4334884402316271701
 MonoBehaviour:
   m_ObjectHideFlags: 3
@@ -97,31 +143,3 @@ MonoBehaviour:
   contrast:
     m_OverrideState: 1
     m_Value: 0.96
---- !u!114 &7045007593066998750
-MonoBehaviour:
-  m_ObjectHideFlags: 3
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 54ec22e1586bb594ba0e271b0bb57e7b, type: 3}
-  m_Name: Bloom
-  m_EditorClassIdentifier: 
-  active: 1
-  Threshold:
-    m_OverrideState: 1
-    m_Value: 1
-  Knee:
-    m_OverrideState: 1
-    m_Value: 0.01
-  blurSpread:
-    m_OverrideState: 1
-    m_Value: 1.39
-  iterations:
-    m_OverrideState: 1
-    m_Value: 5
-  RTDownScaling:
-    m_OverrideState: 1
-    m_Value: 2

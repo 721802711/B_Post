@@ -15,6 +15,7 @@ Shader "B_Post/Bloom"
         // 第一个Pass
         pass
         {
+            name "Bloom PreFilterPass"                // 提取亮度
             HLSLPROGRAM
 
             #pragma vertex vert
@@ -28,6 +29,22 @@ Shader "B_Post/Bloom"
         // 第二个Pass
         pass
         {
+            name "Bloom PrefilterFirePass"              // 过滤Fireflies（光斑)
+            HLSLPROGRAM
+
+            #pragma vertex vert
+            #pragma fragment PrefilterFirefrag
+
+            #include "BloomCommon.hlsl"           //函数库
+
+            ENDHLSL        
+		}
+
+        // 第三个Pass
+        pass
+        {
+            name "Bloom BoxBlurPass"                // 视频模糊
+
             HLSLPROGRAM
 
             #pragma vertex vert
@@ -37,30 +54,21 @@ Shader "B_Post/Bloom"
 
             ENDHLSL        
 		}
-        // 第三个Pass
+
+    
+        // 第4个Pass
         pass
         {
+            
+            name "Bloom MergePass"                // 合并处理
 
-            blend one one                // 主要是这里
-
-            HLSLPROGRAM
-
-            #pragma vertex vert
-            #pragma fragment AddBlurfrag
-
-            #include "BloomCommon.hlsl"           //函数库
-
-            ENDHLSL        
-		}
-
-        // 第四个Pass
-        pass
-        {
             HLSLPROGRAM
 
             #pragma vertex vert
             #pragma fragment Mergefrag
 
+            #pragma shader_feature _BLOOMADDTIVE
+            
             #include "BloomCommon.hlsl"           //函数库
 
             ENDHLSL        

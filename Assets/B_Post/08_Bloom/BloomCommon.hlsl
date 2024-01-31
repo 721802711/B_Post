@@ -10,6 +10,8 @@ float _Threshold;
 float4 _MainTex_TexelSize;
 float _BlurRange;
 float _Knee;
+float4 _BloomColor;
+float _Intensity;
 CBUFFER_END
 
 struct appdata
@@ -27,6 +29,12 @@ struct v2f
 TEXTURE2D(_MainTex);                          SAMPLER(sampler_MainTex);
 TEXTURE2D(_SourceTex);                          SAMPLER(sampler_SourceTex);
 
+// -----------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+float Luminance(float3 color) {
+    return dot(color, float3(0.2126, 0.7152, 0.0722));
+}
 
 
 half3 BoxFliter(float2 uv, float t)
@@ -63,11 +71,7 @@ half3 PreFilter(half3 color)
     return color * conteribution;
 }
 
-float Luminance(float3 color) {
-    return dot(color, float3(0.2126, 0.7152, 0.0722));
-}
-
-
+// -----------------------------------------------------------------------------------------------------------------------------------------------------
 
 v2f vert(appdata v)
 {
@@ -79,61 +83,70 @@ v2f vert(appdata v)
     return o;
 }
 
+// -----------------------------------------------------------------------------------------------------------------------------------------------------
 
+// 提取亮部信息
 half4 PreFilterfrag(v2f i) : SV_Target
 {
 
-    half4 tex = SAMPLE_TEXTURE2D(_MainTex, sampler_MainTex, i.uv);
+    half3 tex = SAMPLE_TEXTURE2D(_MainTex, sampler_MainTex, i.uv).rgb;
     half4 col = half4(PreFilter(tex).rgb, 1);
     return col;
 }
           
-half4 BloomPrefilterFirefiles(v2f i) : SV_Target {
+// 过滤Fireflies（光斑)
+half4 PrefilterFirefrag(v2f i) : SV_Target
+{
+    // 初始化 
     half3 color = 0.0;
     float weightSum = 0.0f;
-    float2 offsets[] = {float2(0.0f, 0.0f), float2(-1.0f, -1.0f), float2(-1.0f, 1.0f), float2(1.0f, -1.0f), float2(1.0f, 1.0f)};
 
+    // 定义偏移量数组
+    float2 offsets[] = {float2(0.0f, 0.0f), float2(-1.0f, -1.0f), float2(-1.0f, 1.0f), float2(1.0f, -1.0f), float2(1.0f, 1.0f)};
+    // 遍历偏移量数组
     for (int j = 0; j < 5; j++)
     {
-        half3 c = SAMPLE_TEXTURE2D(_MainTex, sampler_MainTex, i.uv + offsets[j] * _MainTex_TexelSize.xy * 2.0);
+        half2 uv = (i.uv + offsets[j] * _MainTex_TexelSize.xy * 2.0);
+        half3 c = SAMPLE_TEXTURE2D(_MainTex, sampler_MainTex, uv).rgb;
+        // 提取亮部函数
         c = PreFilter(c);
+        // 计算权重  和 颜色值
         float w = 1.0 / (Luminance(c) + 1.0f);
-        color += c * w;
+        color += c * w;                     
         weightSum += w;
     }
     color /= weightSum;
+
     return half4(color, 1.0f);
 }
 
 
-
+// 水平方向模糊
 half4 BoxBlurfrag(v2f i) : SV_Target
 {
-
     half4 col = half4(BoxFliter(i.uv, _BlurRange).rgb, 1);
 
     return col;
 }
 
 
-half4 AddBlurfrag(v2f i) : SV_Target
-{
 
-    half4 tex = SAMPLE_TEXTURE2D(_MainTex, sampler_MainTex, i.uv);
-    half4 col = half4(BoxFliter(i.uv, _BlurRange).rgb, 1);
-
-
-    return col;
-}
-
+// 合并
 half4 Mergefrag(v2f i) : SV_Target
 {
 
-    half3 soure = SAMPLE_TEXTURE2D(_SourceTex, sampler_SourceTex, i.uv);
-    half3 blur = SAMPLE_TEXTURE2D(_MainTex, sampler_MainTex, i.uv);
-    
-    
-    return float4(soure + blur, 1);
+    half3 soure = SAMPLE_TEXTURE2D(_SourceTex, sampler_SourceTex, i.uv).rgb;
+    half3 bloomblur = SAMPLE_TEXTURE2D(_MainTex, sampler_MainTex, i.uv).rgb;
+
+    half3 color = 0.0f;
+    #ifdef _BLOOMADDTIVE
+        color = soure  + (bloomblur  * _Intensity) * _BloomColor;
+    #else
+        soure += (bloomblur) - PreFilter(bloomblur);
+        color = lerp(bloomblur, soure, saturate(_Intensity));
+    #endif
+
+    return half4(color, 1);  
 }
 
 #endif
